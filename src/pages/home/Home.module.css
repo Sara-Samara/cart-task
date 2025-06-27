@@ -1,0 +1,57 @@
+.mySlider {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden; /* مهم */
+  border-radius: 40px;
+}
+
+.zoomImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 40px;
+  /* تكبير تدريجي بطيء */
+  transition: transform 5s ease-in-out;
+}
+
+/* لما السلايد يكون "active" نكبر الصورة */
+.keen-slider__slide.active img {
+  transform: scale(1.1);
+}
+
+/* تلاشي بين السلايدات (keen-slider يضيف هذا تلقائياً) */
+.keen-slider__slide {
+  transition: opacity 1s ease-in-out;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.keen-slider__slide.active {
+  opacity: 1;
+  position: relative;
+}
+
+.App {
+  font-family: sans-serif;
+  text-align: center;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: -1px;
+  line-height: 1.2;
+  text-align: center;
+  color: #000;
+}
+.textOverlay {
+  position: absolute;
+  bottom: 10%;
+  left: 10%;
+  font-size: 2rem;
+  color: white;
+  z-index: 2;
+  font-weight: bold;
+}

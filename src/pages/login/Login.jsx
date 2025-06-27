@@ -18,30 +18,22 @@ import { Visibility, VisibilityOff, LockPersonOutlined, AlternateEmail } from '@
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function Login() {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [isLoading, setIsLoading] = useState(false);
-    const [isPageLoading, setIsPageLoading] = useState(true); 
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
 
-  
-    React.useEffect(() => {
-        const timer = setTimeout(() => {
-            setIsPageLoading(false);
-        }, 1000);
-        return () => clearTimeout(timer);
-    }, []);
 
     const LoginSubmit = async (values) => {
-        setIsLoading(true);
         try {
             const response = await axios.post('https://mytshop.runasp.net/api/Account/Login', values);
-            
             if (response.status >= 200 && response.status < 300) {
+                const token = response.data.token;
+                localStorage.setItem('token', token);
                 toast.success('Login successful! Redirecting...', {
                     position: "top-center",
                     autoClose: 1500,
@@ -49,7 +41,7 @@ export default function Login() {
                     closeOnClick: true,
                     pauseOnHover: true,
                     draggable: true,
-                    onClose: () => navigate('/', { replace: true }),
+                    onClose: () => navigate('/home', { replace: true }),
                 });
             }
         } catch (error) {
@@ -93,7 +85,7 @@ export default function Login() {
     const handleClickShowPassword = () => setShowPassword((prev) => !prev);
     const handleMouseDownPassword = (event) => event.preventDefault();
 
-    if (isPageLoading) {
+    if (isLoading) {
         return (
             <Container maxWidth="sm" sx={{ 
                 display: 'flex', 
@@ -122,18 +114,6 @@ export default function Login() {
 
     return (
         <>
-            <ToastContainer
-                position="top-center"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="colored"
-            />
             
             <Container maxWidth="sm" sx={{ 
                 display: 'flex', 

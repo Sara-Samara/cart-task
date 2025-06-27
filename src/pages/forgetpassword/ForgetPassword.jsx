@@ -17,23 +17,14 @@ import 'react-toastify/dist/ReactToastify.css';
 export default function ForgetPassword() {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [isLoading, setIsLoading] = useState(false);
-    const [isPageLoading, setIsPageLoading] = useState(true); // For initial page load
     const navigate = useNavigate();
-
-    // Simulate initial page loading (network delay)
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setIsPageLoading(false);
-        }, 1200); // 1.2 second delay
-        return () => clearTimeout(timer);
-    }, []);
 
     const onSubmit = async (data) => {
         setIsLoading(true);
         try {
             const response = await axios.post(
                 'https://mytshop.runasp.net/api/Account/ForgotPassword', 
-                { email: data.email }
+                {}
             );
             
             if (response.status === 200) {
@@ -70,7 +61,7 @@ export default function ForgetPassword() {
         }
     };
 
-    if (isPageLoading) {
+    if (isLoading) {
         return (
             <Container maxWidth="sm" sx={{ 
                 display: 'flex', 
@@ -90,18 +81,6 @@ export default function ForgetPassword() {
 
     return (
         <>
-            <ToastContainer
-                position="top-center"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="colored"
-            />
             
             <Container maxWidth="sm" sx={{ 
                 display: 'flex', 

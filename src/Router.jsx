@@ -6,37 +6,38 @@ import Login from "./pages/login/Login";
 import ForgetPassword from "./pages/forgetpassword/ForgetPassword";
 import VerificationPage from "./pages/validate/VerificationPage";
 import NewPassword from "./pages/newpassword/NewPassword";
-
+import Home from "./pages/home/Home";
+import MainLayout from "./layout/MainLayout";
+import Catgories from "./component/catgories/Catgories";
+import Product from "./component/product/product";
+import ProductDetails from "./pages/productDetails/ProductDetails";
+import Cart from "./pages/cart/Cart";
 
 const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <MainLayout />,
+    errorElement: <ErrorPage />,
+    children: [
+      { index: true, element: <Home /> },
+      { path: "categories", element: <Catgories /> },
+      { path: "products", element: <Product /> },
+      { path: "productDetails/:id", element: <ProductDetails /> },
+      { path: "cart", element: <Cart /> }
+    ]
+  },
   {
     path: "/",
     element: <SecondaryLayout />,
     errorElement: <ErrorPage />,
     children: [
-      { 
-        path: 'register',
-        element: <Register />,
-        errorElement: <ErrorPage />,
-      },
-      { 
-        path: 'login',
-        element: <Login />,
-      },
-      {
-        path:'forgot-password',
-        element: <ForgetPassword/>,
-      },
-      {
-        path:'validate',
-        element: <VerificationPage/>,
-      },
-      {
-        path:'new-password',
-        element: <NewPassword/>,
-      }
+      { path: 'login', element: <Login /> },
+      { path: 'register', element: <Register /> },
+      { path: 'forgot-password', element: <ForgetPassword /> },
+      { path: 'validate', element: <VerificationPage /> },
+      { path: 'new-password', element: <NewPassword /> },
     ]
-  },
+  }
 ]);
 
 export default router;

@@ -18,20 +18,9 @@ import { useNavigate } from 'react-router-dom';
 export default function VerificationPage() {
   const [code, setCode] = useState(['', '', '', '']);
   const [timer, setTimer] = useState(60);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [isResending, setIsResending] = useState(false);
-  const [isPageLoading, setIsPageLoading] = useState(true);
   const navigate = useNavigate();
-
-  useEffect(() => {
-   
-    const loadTimer = setTimeout(() => {
-      setIsPageLoading(false);
-      sendVerificationCode();
-    }, 1500); 
-
-    return () => clearTimeout(loadTimer);
-  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -43,9 +32,7 @@ export default function VerificationPage() {
   const sendVerificationCode = async () => {
     try {
       setIsResending(true);
-      await axios.post('https://mytshop.runasp.net/api/Account/SendCode', {
-        email: 'user@gmail.com' 
-      });
+      await axios.post('https://mytshop.runasp.net/api/Account/SendCode', {});
       toast.success('Verification code sent successfully', {
         position: "top-center",
         autoClose: 3000,
@@ -66,6 +53,7 @@ export default function VerificationPage() {
       });
     } finally {
       setIsResending(false);
+      setIsLoading(false);
     }
   };
 
@@ -82,20 +70,10 @@ export default function VerificationPage() {
   };
 
   const handleVerify = async () => {
-    const fullCode = code.join('');
-    if (fullCode.length !== 4) {
-      toast.warn('Please enter the complete 4-digit code', {
-        position: "top-center",
-        autoClose: 3000,
-      });
-      return;
-    }
 
     try {
       setIsLoading(true);
-      const response = await axios.post('https://mytshop.runasp.net/api/Account/VerifyCode', {
-        code: fullCode
-      });
+      const response = await axios.post('https://mytshop.runasp.net/api/Account/VerifyCode', {});
       
       if (response.status === 200) {
         toast.success('Verification successful!', {
@@ -122,7 +100,7 @@ export default function VerificationPage() {
     }
   };
 
-  if (isPageLoading) {
+  if (isLoading) {
     return (
       <Container maxWidth="sm" sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: '100vh', p: 3 }}>
         <Skeleton variant="text" width="60%" height={40} sx={{ mb: 3, alignSelf: 'center' }} />
@@ -145,18 +123,6 @@ export default function VerificationPage() {
 
   return (
     <>
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-      />
       
       <Container maxWidth="sm" sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
         <Typography variant="h6" gutterBottom sx={{ mb: 3 }}>

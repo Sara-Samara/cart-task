@@ -24,13 +24,12 @@ import LockPersonOutlinedIcon from '@mui/icons-material/LockPersonOutlined';
 export default function NewPassword() {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [isLoading, setIsLoading] = useState(false);
-  const [isPageLoading, setIsPageLoading] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
 
   const searchParams = new URLSearchParams(location.search);
   const email = searchParams.get('email');
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(true);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   
   const handleClickShowPassword = () => {
@@ -45,14 +44,6 @@ export default function NewPassword() {
     event.preventDefault();
   };
 
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsPageLoading(false);
-    }, 1500); 
-
-    return () => clearTimeout(timer);
-  }, []);
 
   const onSubmit = async (data) => {
     if (data.password !== data.confirmPassword) {
@@ -71,13 +62,9 @@ export default function NewPassword() {
       return;
     }
 
-    setIsLoading(true);
+    
     try {
       const response = await axios.patch('https://mytshop.runasp.net/api/Account/SendCode', {
-        email: email || data.email, 
-        code: data.code,
-        password: data.password,
-        ConfirmPassword: data.confirmPassword
       });
 
       if (response.status === 200) {
@@ -87,6 +74,7 @@ export default function NewPassword() {
           onClose: () => navigate('/login')
         });
       }
+      
     } catch (error) {
       let errorMessage = 'Password reset failed';
       
@@ -108,7 +96,7 @@ export default function NewPassword() {
     }
   };
 
-  if (isPageLoading) {
+  if (isLoading) {
     return (
       <Container maxWidth="sm" sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: '100vh', p: 3 }}>
         <Skeleton variant="text" width="60%" height={40} sx={{ mb: 3, alignSelf: 'center' }} />
@@ -125,19 +113,7 @@ export default function NewPassword() {
 
   return (
     <>
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-      />
-      
+
       <Container maxWidth="sm" sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
         <Typography variant="h5" gutterBottom align="center">
           Set a new password

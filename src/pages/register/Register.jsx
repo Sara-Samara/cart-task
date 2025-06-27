@@ -27,24 +27,15 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { useForm, Controller } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function Register() {
     const { register, handleSubmit, control, formState: { errors }, watch } = useForm();
-    const [isLoading, setIsLoading] = useState(false);
-    const [isPageLoading, setIsPageLoading] = useState(true); // For initial page load
+    const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-    // Simulate initial page loading
-    React.useEffect(() => {
-        const timer = setTimeout(() => {
-            setIsPageLoading(false);
-        }, 1200);
-        return () => clearTimeout(timer);
-    }, []);
 
     const onSubmit = async (values) => {
         if (values.password !== values.confirmPassword) {
@@ -55,7 +46,6 @@ export default function Register() {
             return;
         }
 
-        setIsLoading(true);
         try {
             const response = await axios.post('https://mytshop.runasp.net/api/Account/register', values);
             
@@ -100,7 +90,7 @@ export default function Register() {
     const handleClickShowConfirmPassword = () => setShowConfirmPassword((prev) => !prev);
     const handleMouseDownPassword = (event) => event.preventDefault();
 
-    if (isPageLoading) {
+    if (isLoading) {
         return (
             <Container maxWidth="sm" sx={{ 
                 display: 'flex', 
@@ -134,18 +124,6 @@ export default function Register() {
 
     return (
         <>
-            <ToastContainer
-                position="top-center"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="colored"
-            />
             
             <Container maxWidth="sm" sx={{ 
                 display: 'flex', 
