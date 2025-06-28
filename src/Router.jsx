@@ -9,9 +9,9 @@ import NewPassword from "./pages/newpassword/NewPassword";
 import Home from "./pages/home/Home";
 import MainLayout from "./layout/MainLayout";
 import Catgories from "./component/catgories/Catgories";
-import Product from "./component/product/product";
 import ProductDetails from "./pages/productDetails/ProductDetails";
 import Cart from "./pages/cart/Cart";
+import Product from "./component/product/Product"; // انتبهي لحرف P
 
 const router = createBrowserRouter([
   {
@@ -21,23 +21,22 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       { path: "categories", element: <Catgories /> },
-      { path: "products", element: <Product /> },
+      { path: "product", element: <Product /> }, // ✅ أضفنا الفاصلة
       { path: "productDetails/:id", element: <ProductDetails /> },
-      { path: "cart", element: <Cart /> }
-    ]
+      { path: "cart", element: <Cart /> },
+    ],
   },
   {
-    path: "/",
     element: <SecondaryLayout />,
     errorElement: <ErrorPage />,
     children: [
-      { path: 'login', element: <Login /> },
-      { path: 'register', element: <Register /> },
-      { path: 'forgot-password', element: <ForgetPassword /> },
-      { path: 'validate', element: <VerificationPage /> },
-      { path: 'new-password', element: <NewPassword /> },
-    ]
-  }
+      { path: "login", element: <Login /> },
+      { path: "register", element: <Register /> },
+      { path: "forgot-password", element: <ForgetPassword /> },
+      { path: "validate", element: <VerificationPage /> },
+      { path: "new-password", element: <NewPassword /> },
+    ],
+  },
 ]);
 
 export default router;
