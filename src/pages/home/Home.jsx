@@ -1,6 +1,6 @@
 import React from 'react';
 import Catgories from '../../component/catgories/Catgories';
-import Product from '../../component/product/product';
+import Product from '../../component/product/Product';
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 import Container from '@mui/material/Container';
